@@ -8,19 +8,21 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { deleteItem } from "../redux/actions/actions";
+import { deleteItem, editItem } from "../redux/actions/actions";
+import { fontSize } from "@mui/system";
 
-export default function TableData({ data }) {
+export default function TableData({ data, setVal }) {
   const dispatch = useDispatch();
-  const editItem = (item) => {
-    return null;
+  const editItem = (row) => {
+    setVal(row);
   };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Type</TableCell>
+            <TableCell>Id</TableCell>
+            <TableCell align="right">Type</TableCell>
             <TableCell align="right">Item</TableCell>
             <TableCell align="right">Amount</TableCell>
             <TableCell align="right">Currency</TableCell>
@@ -31,18 +33,33 @@ export default function TableData({ data }) {
         </TableHead>
         <TableBody>
           {data?.map((row) => (
-            <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+            <TableRow
+              key={row.id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
               <TableCell component="th" scope="row">
-                {row.type}
+                {row.id}
               </TableCell>
+              <TableCell align="right">{row.type}</TableCell>
               <TableCell align="right">{row.item}</TableCell>
               <TableCell align="right">{row.amount}</TableCell>
               <TableCell align="right">{row.currency}</TableCell>
-              <TableCell align="right" style={{ display: "flex", justifyContent: "right", columnGap: `1rem` }}>
-                <Button variant="outlined" onClick={() => editItem(row.item)}>
+              <TableCell
+                align="right"
+                style={{
+                  display: "flex",
+                  justifyContent: "right",
+                  columnGap: `1rem`,
+                }}
+              >
+                <Button variant="outlined" onClick={() => editItem(row)}>
                   Edit
                 </Button>
-                <Button variant="outlined" onClick={() => dispatch(deleteItem(row.item))} style={{ borderColor: "red", color: "red" }}>
+                <Button
+                  variant="outlined"
+                  onClick={() => dispatch(deleteItem(row.item))}
+                  style={{ borderColor: "red", color: "red" }}
+                >
                   Delete
                 </Button>
               </TableCell>
@@ -50,6 +67,12 @@ export default function TableData({ data }) {
           ))}
         </TableBody>
       </Table>
+      <Button
+        variant="ı-outlined"
+        style={{ borderColor: "green", color: "green", fontSize: "20px" }}
+      >
+        Total
+      </Button>
     </TableContainer>
   );
 }
