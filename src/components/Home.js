@@ -15,6 +15,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { sum } from "../utils/reduce";
 import { exchange } from "../utils/currency";
+import axios from "axios";
 
 const Home = () => {
   const [val, setVal] = useState(initial);
@@ -39,17 +40,18 @@ const Home = () => {
     setVal(initial);
   };
 
-  const HandleChange = () => {};
-  // useEffect(async () => {
-  //   // let expenses = await exchange("USD", "TRY");
-  //   // let incomes = await exchange("USD", "TRY");
-  //   // setToplam({
-  //   //   expenses,
-  //   //   incomes,
-  //   // });
-  // }, []);
+  const handleExchange = async () => {
+    let current_currency = data[0].currency;
+    const result = await axios.get(
+      `https://free.currconv.com/api/v7/convert?q=${current_currency}_TRY&compact=ultra&apiKey=88d84c9f7eb72c09fdee`
+    );
+    let one_lira = Object.values(result.data)[0];
+    let income = sum(data, "income");
+    let expense = sum(data, "expense");
+    setToplam({ incomes: income * one_lira, expenses: expense * one_lira });
+  };
   return (
-    <Paper style={{ margin: `5rem`, backgroundColor: `#fffaed` }}>
+    <Paper style={{ margin: `5rem`, backgroundColor: `#dfe7fd` }}>
       <Box
         my={5}
         p={5}
@@ -108,43 +110,53 @@ const Home = () => {
             </MenuItem>
           ))}
         </TextField>
-        <Button variant="outlined" color="primary" onClick={handleSave}>
+        <Button variant="contained" color="primary" onClick={handleSave}>
           {val.id ? "Update" : "Add"}
         </Button>
       </Box>
       <Box
-        sx={{ display: "flex", justifyContent: "center", columnGap: `2rem` }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          columnGap: `2rem`,
+        }}
       >
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
+            <Typography sx={{ fontSize: 20 }} color="green" gutterBottom>
               Total Income
             </Typography>
             <Typography variant="h5" component="div">
-              {toplam.incomes}
+              {new Intl.NumberFormat("tr-TR", {
+                style: "currency",
+                currency: "TRY",
+                maximumFractionDigits: 1,
+              }).format(toplam.incomes)}
             </Typography>
           </CardContent>
         </Card>
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
+            <Typography sx={{ fontSize: 20 }} color="red" gutterBottom>
               Total Expense
             </Typography>
             <Typography variant="h5" component="div">
-              {toplam.expenses}
+              {new Intl.NumberFormat("tr-TR", {
+                style: "currency",
+                currency: "TRY",
+                maximumFractionDigits: 1,
+              }).format(toplam.expenses)}
             </Typography>
           </CardContent>
         </Card>
-        <Button variant="outlined" color="primary" onClick={handleChange}>
-          Change
+        <Button
+          variant="contained"
+          color="primary"
+          backgroundColor="blue"
+          onClick={() => handleExchange("USD", "TRY", 50)}
+        >
+          Convert
         </Button>
       </Box>
       <Box p={5}>
