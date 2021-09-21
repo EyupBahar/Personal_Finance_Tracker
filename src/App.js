@@ -8,7 +8,7 @@ import Home from "./components/Home";
 function App() {
   return (
     <div className="App">
-      <h1>FINANCE TRACKER</h1>
+      <h1 style={{ color: "green" }}>FINANCE TRACKER</h1>
       {/* <Balance/>
       <IncomeExpense/>
       <TransactionList/>
