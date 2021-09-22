@@ -67,12 +67,6 @@ export default function TableData({ data, setVal }) {
           ))}
         </TableBody>
       </Table>
-      <Button
-        variant="ı-outlined"
-        style={{ borderColor: "green", color: "green", fontSize: "20px" }}
-      >
-        Total
-      </Button>
     </TableContainer>
   );
 }
