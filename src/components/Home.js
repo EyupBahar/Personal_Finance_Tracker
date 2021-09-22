@@ -14,7 +14,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { sum } from "../utils/reduce";
-import { exchange } from "../utils/currency";
 import axios from "axios";
 
 const Home = () => {
@@ -29,7 +28,7 @@ const Home = () => {
   };
 
   const handleSave = () => {
-    if (!Object.values(val).every((i) => i != false))
+    if (!Object.values(val).every((i) => i !== false))
       return window.alert("Please fill all fields");
     if (val.id) {
       dispatch(editEntry(val));

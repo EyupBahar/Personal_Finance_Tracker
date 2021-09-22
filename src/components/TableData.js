@@ -8,9 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { deleteItem, editItem } from "../redux/actions/actions";
-import { fontSize } from "@mui/system";
-
+import { deleteItem } from "../redux/actions/actions";
 export default function TableData({ data, setVal }) {
   const dispatch = useDispatch();
   const editItem = (row) => {
